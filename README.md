@@ -61,6 +61,12 @@ This is a transparent scheduling heuristic, not a fitted memory model or an expe
 
 Answer checking normalizes case, ordinary punctuation, apostrophe style, and whitespace. It uses explicit accepted answers, **not an AI semantic evaluator**. Near spellings are not silently accepted as valid French. A legitimate unlisted wording may be marked incorrect; the prompt is deliberately constrained and accepted variants can be expanded in `src/content.js`.
 
+## Casual entry screen
+
+The requested client-side access screen uses the entry code `french101`. It is a convenience screen, **not secure authentication**: the code, static content, and source remain public and can be inspected or bypassed. Do not use it to protect private data or reuse a real password.
+
+The open/closed flag is held in `sessionStorage`, separately from learning progress. A same-tab reload stays open; the Settings lock button closes the screen without deleting progress. The form does not send the entered code to a server. If session storage is unavailable, access lasts only until the page reloads. No GitHub repository permissions, Pages access settings, or authentication services are changed.
+
 ## Privacy and honest limits
 
 There are no analytics, accounts, API calls, or remote progress storage. Static hosting receives ordinary page requests. Your browser or operating system may use a voice service for synthetic speech; only authored learning text is spoken. There is no microphone, audio recording, fake pronunciation score, or AI conversation simulation.

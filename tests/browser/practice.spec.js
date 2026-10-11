@@ -2,10 +2,12 @@ import {test,expect} from '@playwright/test';
 test.beforeEach(async({page})=>{
   await page.addInitScript(()=>{try{Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{getVoices:()=>[],cancel(){},addEventListener(){}}});}catch{}});
   await page.goto('/');
+  await page.locator('#entry-code').fill('french101');
+  await page.locator('#entry-code').press('Enter');
 });
 test('dashboard and course are responsive and error free',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await expect(page.getByRole('heading',{name:'Un peu, chaque jour.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Today'})).toBeVisible();
   await expect(page.locator('.hero')).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
   await page.goto('/#course');
@@ -18,7 +20,7 @@ test('typed answer saves once, reloads, and restores progress',async({page})=>{
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.locator('#answer-input').fill('Je m’appelle Léa.');
   await page.locator('#answer-input').press('Enter');
-  await expect(page.locator('.answer-feedback')).toContainText('Nicely recalled');
+  await expect(page.locator('.answer-feedback')).toContainText('Correct.');
   await expect(page.locator('.feedback-xp')).toContainText('+15 XP');
   expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('elan.french.v1')).records['introductions-01'].seen)).toBe(1);
   await page.reload();
@@ -29,7 +31,7 @@ test('hinted success is assisted and goes to the notebook',async({page})=>{
   await page.locator('[data-action="show-hint"]').click();
   await page.locator('#answer-input').fill('Je m’appelle Léa.');
   await page.locator('#answer-input').press('Enter');
-  await expect(page.locator('.answer-feedback')).toContainText('supported answer');
+  await expect(page.locator('.answer-feedback')).toContainText('Assisted answer');
   expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('elan.french.v1')).records['introductions-01'].lastGrade)).toBe(1);
   await page.reload();await page.goto('/#notebook');
   await expect(page.locator('.mistake-card')).toHaveCount(1);

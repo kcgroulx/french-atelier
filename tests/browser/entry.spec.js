@@ -1,0 +1,41 @@
+import {test,expect} from '@playwright/test';
+const unlock=async page=>{await page.locator('#entry-code').fill('french101');await page.locator('#entry-code').press('Enter');await expect(page.locator('.sidebar')).toBeAttached();};
+test('casual screen rejects a wrong code and accepts Enter without a network submission',async({page})=>{
+ await page.goto('/#notebook');
+ await expect(page.locator('#entry-form')).toBeVisible();
+ await expect(page.locator('#entry-code')).toBeFocused();
+ await expect(page.locator('#entry-note')).toContainText('not secure authentication');
+ await expect(page.locator('.sidebar')).toHaveCount(0);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
+ const requests=[];page.on('request',r=>requests.push({url:r.url(),method:r.method(),body:r.postData()}));
+ await page.locator('#entry-code').fill('incorrect');await page.locator('#entry-code').press('Enter');
+ await expect(page.locator('#entry-error')).toContainText('doesn’t match');
+ await expect(page.locator('#entry-code')).toHaveAttribute('aria-invalid','true');
+ await unlock(page);
+ await expect(page.getByRole('heading',{name:'Notebook',exact:true})).toBeVisible();
+ expect(requests.filter(r=>r.method!=='GET'||r.url.includes('french101')||r.body?.includes('french101'))).toEqual([]);
+ expect(await page.evaluate(()=>sessionStorage.getItem('elan.casual-entry.v1'))).toBe('open');
+});
+test('same-tab reload stays open while a fresh tab has its own entry screen',async({page,context})=>{
+ await page.goto('/');await unlock(page);await page.reload();
+ await expect(page.getByRole('heading',{name:'Today',exact:true})).toBeVisible();
+ await expect(page.locator('#entry-form')).toHaveCount(0);
+ const other=await context.newPage();await other.goto('/');
+ await expect(other.locator('#entry-form')).toBeVisible();
+ await other.close();
+});
+test('lock and browser back keep the screen closed without erasing progress',async({page})=>{
+ await page.goto('/');await unlock(page);
+ await page.locator('[data-action="start:daily"]').click();
+ await page.locator('#answer-input').fill('Je m’appelle Léa.');await page.locator('#answer-input').press('Enter');
+ const saved=await page.evaluate(()=>localStorage.getItem('elan.french.v1'));
+ await page.reload();await page.goto('/#settings');
+ await page.locator('[data-action="lock-entry"]').click();
+ await expect(page.locator('#entry-form')).toBeVisible();
+ expect(await page.evaluate(()=>localStorage.getItem('elan.french.v1'))).toBe(saved);
+ expect(await page.evaluate(()=>sessionStorage.getItem('elan.casual-entry.v1'))).toBeNull();
+ await page.goBack();await expect(page.locator('#entry-form')).toBeVisible();
+ await page.goto('/#progress');await expect(page.locator('#entry-form')).toBeVisible();
+ await unlock(page);await expect(page.locator('.xp-pill')).toContainText('15 XP');
+ expect(await page.evaluate(()=>localStorage.getItem('elan.french.v1'))).toBe(saved);
+});

@@ -10,18 +10,18 @@ export const foldAccents = value => normalize(value).normalize('NFD').replace(/[
 export function gradeAnswer(exercise, input, hinted = false) {
   if (exercise.choices) {
     const correct = Number(input) === exercise.correct && input !== '' && input !== null;
-    return {kind: correct ? 'correct':'incorrect', correct, grade: correct ? (hinted ? 1:2):0, expected:exercise.choices[exercise.correct], message: correct ? 'You found the meaning.': 'Let’s look at the evidence.'};
+    return {kind: correct ? 'correct':'incorrect', correct, grade: correct ? (hinted ? 1:2):0, expected:exercise.choices[exercise.correct], message: correct ? 'Correct.': 'Not quite.'};
   }
   const answers = exercise.answers || [];
   const answer = answers[0] || '';
   const normalized = normalize(input);
   if (!normalized) return {kind:'empty', correct:false, grade:0, expected:answer, message:'Write an answer first.'};
-  if (answers.some(a => normalize(a) === normalized)) return {kind:'correct', correct:true, grade:hinted?1:3, expected:answer, message: hinted ? 'Good repair. We’ll revisit it soon.':'Nicely recalled.'};
-  if (answers.some(a => foldAccents(a) === foldAccents(input))) return {kind:'accent',correct:false,grade:1,expected:answer,message:'Almost. Give the accents another look.'};
+  if (answers.some(a => normalize(a) === normalized)) return {kind:'correct', correct:true, grade:hinted?1:3, expected:answer, message: hinted ? 'Correct with support.':'Correct.'};
+  if (answers.some(a => foldAccents(a) === foldAccents(input))) return {kind:'accent',correct:false,grade:1,expected:answer,message:'Check the accents.'};
   const wantedArticle = /^(le|la|les|un|une|des|du|de la)\s/.exec(normalize(answer));
   const givenArticle = /^(le|la|les|un|une|des|du|de la)\s/.exec(normalized);
   const articleIssue = wantedArticle && givenArticle && wantedArticle[1] !== givenArticle[1];
-  return {kind:'incorrect',correct:false,grade:0,expected:answer,message:articleIssue?'Check the article and noun gender.':'A useful mistake. Let’s untangle it.'};
+  return {kind:'incorrect',correct:false,grade:0,expected:answer,message:articleIssue?'Check the article and noun gender.':'Not quite.'};
 }
 export function localDate(date = new Date()) {
   const d = date instanceof Date ? date : new Date(date);
