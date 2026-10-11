@@ -1,0 +1,30 @@
+const shapes = {
+ home:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/><path d="M9 21v-8h6v8"/>',
+ book:'<path d="M12 5C8 2 4 3 2 4v16c4-2 7-1 10 1 3-2 6-3 10-1V4c-2-1-6-2-10 1Z"/><path d="M12 5v16"/>',
+ review:'<path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/><path d="M12 7v5l3 2"/>',
+ notebook:'<path d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5Z"/><path d="M8 3v18M3 7h4M3 12h4M3 17h4M12 8h4M12 12h4"/>',
+ chart:'<path d="M4 3v18h17M8 16v-4M13 16V8M18 16V4"/>',
+ flask:'<path d="M9 3h6M10 3v7L4 19a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-9V3M8 14h8"/>',
+ settings:'<circle cx="12" cy="12" r="3"/><path d="m9 3-1 3-3 1-2 3 2 2-1 4 3 2 3-1 2 4 3-2 1-3 4-1 1-3-3-2V6l-3-1-2-3Z"/>',
+ arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',
+ chevron:'<path d="m9 5 7 7-7 7"/>',
+ check:'<path d="m5 12 4 4L19 6"/>',
+ close:'<path d="m6 6 12 12M6 18 18 6"/>',
+ flame:'<path d="M12 3c2 5 6 6 6 11a6 6 0 0 1-12 0c0-3 2-6 3-7 0 3 1 4 2 4 2-3 1-6 1-8Z"/>',
+ bolt:'<path d="m13 2-9 12h7l-1 8 10-12h-7Z"/>',
+ target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+ sound:'<path d="m11 4-6 5H2v6h3l6 5ZM15 8a6 6 0 0 1 0 8m3-12a11 11 0 0 1 0 16"/>',
+ bulb:'<path d="M8 16c0-3-3-3-3-7a7 7 0 0 1 14 0c0 4-3 4-3 7M8 17h8m-7 4h6"/>',
+ keyboard:'<rect x="2" y="5" width="20" height="14" rx="3"/><path d="M6 9h1m3 0h1m3 0h1m3 0h1M6 12h1m3 0h1m3 0h1m3 0h1M7 16h10"/>',
+ star:'<path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z"/>',
+ lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/>',
+ upload:'<path d="M12 16V3m-5 5 5-5 5 5M4 15v6h16v-6"/>',
+ download:'<path d="M12 3v13m-5-5 5 5 5-5M4 17v4h16v-4"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',
+ leaf:'<path d="M5 19C-1 6 12 4 21 3c0 9-3 19-13 15M3 21 16 8"/>',
+ menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',
+ trophy:'<path d="M7 3h10v7a5 5 0 0 1-10 0ZM7 5H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4M12 15v6m-4 0h8"/>'
+};
+export function icon(name, size=20) {return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${shapes[name]||shapes.book}</svg>`;}
+export const heroArt = `<svg class="hero-art" viewBox="0 0 400 310" role="img" aria-label="An illustrated French notebook, a coffee cup, and a flowering branch"><circle cx="220" cy="160" r="125" fill="#c7dace"/><path d="M115 66h192v195H115Z" fill="#b0cbbb"/><path d="M128 53h183v193H128Z" fill="#f8f1dc" transform="rotate(8 219 150)"/><rect x="120" y="59" width="177" height="193" rx="8" fill="#fffdf3" transform="rotate(-9 210 156)"/><path d="m149 97 107-17m-103 41 94-15m-90 41 94-15m-90 41 55-9" stroke="#d9dfcc" stroke-width="4" stroke-linecap="round"/><text x="151" y="160" transform="rotate(-9 151 160)" fill="#165c4b" font-family="Georgia,serif" font-size="31" font-style="italic">ça va bien.</text><path d="m154 206 29 20 49-61" fill="none" stroke="#ed7c5e" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="m280 40-26 193" stroke="#173d32" stroke-width="10" stroke-linecap="round"/><path d="m254 233-3 18 8-17" fill="#173d32"/><path d="m280 40 1-7" stroke="#ef9372" stroke-width="10" stroke-linecap="round"/><ellipse cx="101" cy="242" rx="45" ry="16" fill="#e9bc8b"/><path d="M65 198h72v31c0 33-72 33-72 0Z" fill="#f49673"/><ellipse cx="101" cy="198" rx="36" ry="11" fill="#ffd4a7"/><ellipse cx="101" cy="198" rx="27" ry="7" fill="#6e4635"/><path d="M137 207c27-2 24 27 0 25" fill="none" stroke="#f49673" stroke-width="9"/><path d="M89 173c-16-17 17-20 0-40m20 39c-16-17 17-20 0-40" fill="none" stroke="#fffdf3" stroke-width="3" stroke-linecap="round"/><path d="M325 267c-8-63 0-82 30-121" stroke="#406c47" stroke-width="4" fill="none"/><path d="M328 229c-36 0-48-26-33-27 19-1 26 10 33 27m2-23c34-2 44-20 29-25-16-5-25 12-29 25m6-34c-32-1-30-22-18-24 10-1 17 13 18 24" fill="#72966d"/><circle cx="353" cy="137" r="18" fill="#efa282"/><circle cx="361" cy="128" r="12" fill="#f2bc94"/><circle cx="357" cy="141" r="7" fill="#ebd795"/><path d="m58 69 4 10 11 1-9 7 3 11-9-7-9 7 3-11-9-7 11-1Z" fill="#f2ba58"/><circle cx="327" cy="73" r="5" fill="#f2ba58"/><path d="m70 127 3 7 8 1-6 5 2 8-7-5-6 5 2-8-6-5 7-1Z" fill="#91ad89"/></svg>`;

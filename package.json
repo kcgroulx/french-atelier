@@ -1,0 +1,20 @@
+{
+  "name": "elan-french",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Élan: deliberate French practice with retrieval, feedback, and spaced review.",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "playwright test",
+    "check": "npm test && npm run build"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "jsdom": "^30.1.2",
+    "vite": "^7.1.0"
+  }
+}
